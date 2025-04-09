@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
 
     GDALAllRegister(); 
 
-    GDALDataset *poDataset = (GDALDataset *) GDALOpen(inputFile, GA_ReadOnly);
+    GDALDataset *poDataset = (GDALDataset *) GDALOpen(inputFile, GA_ReadOnly); //Cast to GDALDataset
     if (poDataset == nullptr) {
         std::cerr << "failed to open raster file" << std::endl;
         return 1;
@@ -54,8 +54,8 @@ int main(int argc, char **argv) {
     cudaMalloc((void **)&dBlue, sizeof(float) * blockSize * blockSize);
     cudaMalloc((void **)&dGLI, sizeof(float) * blockSize * blockSize);
 
-    GDALDriver *poDriver = GetGDALDriverManager()->GetDriverByName("GTiff");
-    GDALDataset *poDstDataset = poDriver->Create(outputFile, width, height, 1, GDT_Float32, nullptr);
+    GDALDriver *poDriver = GetGDALDriverManager()->GetDriverByName("GTiff"); //GetGDALDriverManager returns a pointer to a singleton then return the drive for the Gtiff type
+    GDALDataset *poDstDataset = poDriver->Create(outputFile, width, height, 1, GDT_Float32, nullptr); //creates a new GDALDataset
 
     double adfGeoTransform[6];
     poDataset->GetGeoTransform(adfGeoTransform);
